@@ -42,6 +42,13 @@ module Puppet
         :desc     => "Where Puppet stores dynamic and growing data.  The default for this
           setting is calculated specially, like `confdir`_.",
     },
+    :sharedir   => {
+        :default  => nil,
+        :type     => :directory,
+        :owner    => "service",
+        :group    => "service",
+        :desc     => "Where Puppet installs architecture-independent data, e.g. augeas lenses and documentation.",
+    },
 
     ### NOTE: this setting is usually being set to a symbol value.  We don't officially have a
     ###     setting type for that yet, but we might want to consider creating one.

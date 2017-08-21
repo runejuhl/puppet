@@ -91,6 +91,24 @@ describe Puppet::Util::RunMode do
       end
     end
 
+    describe "#share_dir" do
+      it "has vardir /opt/puppetlabs/puppet/share when run as root" do
+        as_root { expect(@run_mode.share_dir).to eq(File.expand_path('/opt/puppetlabs/puppet/share')) }
+      end
+
+      it "has vardir ~/.puppetlabs/opt/puppet/share when run as non-root" do
+        as_non_root { expect(@run_mode.share_dir).to eq(File.expand_path('~/.puppetlabs/opt/puppet/share')) }
+      end
+
+      it "fails when asking for the share_dir as non-root and there is no $HOME", :unless => gte_ruby_2_4 || Puppet.features.microsoft_windows? do
+        as_non_root do
+          without_home do
+            expect { @run_mode.share_dir }.to raise_error ArgumentError, /couldn't find HOME/
+          end
+        end
+      end
+    end
+
     describe "#log_dir" do
       describe "when run as root" do
         it "has logdir /var/log/puppetlabs/puppet" do

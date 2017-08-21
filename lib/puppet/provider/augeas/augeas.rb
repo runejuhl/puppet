@@ -359,7 +359,7 @@ Puppet::Type.type(:augeas).provide(:augeas) do
       load_path.flatten!
     end
 
-    if Puppet::FileSystem.exist?("#{Puppet[:libdir]}/augeas/lenses")
+    if Puppet::FileSystem.exist?("#{Puppet[:sharedir]}/augeas/lenses")
       load_path << "#{Puppet[:libdir]}/augeas/lenses"
     end
 

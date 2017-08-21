@@ -210,6 +210,7 @@ module Puppet::Test
           :confdir    => "/dev/null",
           :codedir    => "/dev/null",
           :vardir     => "/dev/null",
+          :sharedir   => "/dev/null",
           :rundir     => "/dev/null",
           :hiera_config => "/dev/null",
       }

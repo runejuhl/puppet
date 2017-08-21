@@ -294,6 +294,14 @@ def prepare_installation
     vardir = "/opt/puppetlabs/puppet/cache"
   end
 
+  if not InstallOptions.sharedir.nil?
+    sharedir = InstallOptions.sharedir
+  elsif $operatingsystem == "windows"
+    sharedir = File.join(Dir::COMMON_APPDATA, "PuppetLabs", "puppet", "share")
+  else
+    sharedir = "/opt/puppetlabs/puppet/share"
+  end
+
   if not InstallOptions.rundir.nil?
     rundir = InstallOptions.rundir
   elsif $operatingsystem == "windows"
@@ -360,6 +368,7 @@ def prepare_installation
   configdir = join(destdir, configdir)
   codedir = join(destdir, codedir)
   vardir = join(destdir, vardir)
+  sharedir = join(destdir, sharedir)
   rundir = join(destdir, rundir)
   logdir = join(destdir, logdir)
   bindir = join(destdir, bindir)
@@ -373,6 +382,7 @@ def prepare_installation
   FileUtils.makedirs(mandir)
   FileUtils.makedirs(sitelibdir)
   FileUtils.makedirs(vardir)
+  FileUtils.makedirs(sharedir)
   FileUtils.makedirs(rundir)
   FileUtils.makedirs(logdir)
   FileUtils.makedirs(localedir)
@@ -384,6 +394,7 @@ def prepare_installation
   InstallOptions.lib_dir = libdir
   InstallOptions.man_dir = mandir
   InstallOptions.var_dir = vardir
+  InstallOptions.share_dir = sharedir
   InstallOptions.run_dir = rundir
   InstallOptions.log_dir = logdir
   InstallOptions.locale_dir = localedir

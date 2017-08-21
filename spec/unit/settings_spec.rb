@@ -567,7 +567,7 @@ describe Puppet::Settings do
 
     it "setting a value to nil causes it to return to its default" do
       default_values = { :one => "skipped value" }
-      [:logdir, :confdir, :codedir, :vardir].each do |key|
+      [:logdir, :confdir, :codedir, :vardir, :sharedir].each do |key|
         default_values[key] = 'default value'
       end
       @settings.define_settings :main, PuppetSpec::Settings::TEST_APP_DEFAULT_DEFINITIONS
@@ -915,11 +915,14 @@ describe Puppet::Settings do
                                                          :hook => proc { |v| hook_invoked = true },
                                                          :call_hook => :on_initialize_and_write, }
 
-      @settings.define_settings(:main,
+      @settings.define_settings(
+        :main,
         :logdir       => { :type => :directory, :default => nil, :desc => "logdir" },
         :confdir      => { :type => :directory, :default => nil, :desc => "confdir" },
         :codedir      => { :type => :directory, :default => nil, :desc => "codedir" },
-        :vardir       => { :type => :directory, :default => nil, :desc => "vardir" })
+        :vardir       => { :type => :directory, :default => nil, :desc => "vardir" },
+        :sharedir     => { :type => :directory, :default => nil, :desc => "sharedir" },
+      )
 
       text = <<-EOD
       [main]
@@ -931,7 +934,13 @@ describe Puppet::Settings do
 
       expect(hook_invoked).to be_falsey
 
-      @settings.initialize_app_defaults(:logdir => '/path/to/logdir', :confdir => '/path/to/confdir', :vardir => '/path/to/vardir', :codedir => '/path/to/codedir')
+      @settings.initialize_app_defaults(
+        :logdir => '/path/to/logdir',
+        :confdir => '/path/to/confdir',
+        :codedir => '/path/to/codedir',
+        :vardir => '/path/to/vardir',
+        :sharedir => '/path/to/sharedir',
+      )
 
       expect(hook_invoked).to be_truthy
       expect(@settings[:deferred]).to eq(File.expand_path('/path/to/confdir/goose'))
@@ -941,11 +950,14 @@ describe Puppet::Settings do
       hook_invoked = false
       @settings.define_settings :section, :can_cause_problems  => {:desc => '' }
 
-      @settings.define_settings(:main,
+      @settings.define_settings(
+        :main,
         :logdir       => { :type => :directory, :default => nil, :desc => "logdir" },
         :confdir      => { :type => :directory, :default => nil, :desc => "confdir" },
         :codedir      => { :type => :directory, :default => nil, :desc => "codedir" },
-        :vardir       => { :type => :directory, :default => nil, :desc => "vardir" })
+        :vardir       => { :type => :directory, :default => nil, :desc => "vardir" },
+        :sharedir     => { :type => :directory, :default => nil, :desc => "sharedir" },
+      )
 
       text = <<-EOD
       [main]
@@ -954,7 +966,13 @@ describe Puppet::Settings do
 
       @settings.stubs(:read_file).returns(text)
       @settings.initialize_global_settings
-      @settings.initialize_app_defaults(:logdir => '/path/to/logdir', :confdir => '/path/to/confdir', :vardir => '/path/to/vardir', :codedir => '/path/to/codedir')
+      @settings.initialize_app_defaults(
+        :logdir => '/path/to/logdir',
+        :confdir => '/path/to/confdir',
+        :vardir => '/path/to/vardir',
+        :sharedir => '/path/to/sharedir',
+        :codedir => '/path/to/codedir',
+      )
 
       expect(@settings[:can_cause_problems]).to eq(File.expand_path('/path/to/confdir/goose'))
     end
@@ -978,6 +996,7 @@ describe Puppet::Settings do
           :confdir    => "/dev/null",
           :codedir    => "/dev/null",
           :vardir     => "/dev/null",
+          :sharedir   => "/dev/null",
         }
       }
 
@@ -993,6 +1012,7 @@ describe Puppet::Settings do
           :logdir => { :default => 'a', :desc => 'a' },
           :confdir => { :default => 'b', :desc => 'b' },
           :vardir => { :default => 'c', :desc => 'c' },
+          :sharedir => { :default => 'e', :desc => 'e' },
           :codedir => { :default => 'd', :desc => 'd' },
         })
       end

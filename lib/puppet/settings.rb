@@ -39,7 +39,7 @@ class Puppet::Settings
 
   # These are the settings that every app is required to specify; there are
   # reasonable defaults defined in application.rb.
-  REQUIRED_APP_SETTINGS = [:logdir, :confdir, :vardir, :codedir]
+  REQUIRED_APP_SETTINGS = [:logdir, :confdir, :vardir, :sharedir, :codedir]
 
   # The acceptable sections of the puppet.conf configuration file.
   ALLOWED_SECTION_NAMES = ['main', 'master', 'agent', 'user'].freeze
@@ -55,6 +55,7 @@ class Puppet::Settings
         :confdir  => run_mode.conf_dir,
         :codedir  => run_mode.code_dir,
         :vardir   => run_mode.var_dir,
+        :sharedir => run_mode.share_dir,
         :rundir   => run_mode.run_dir,
         :logdir   => run_mode.log_dir,
     }
