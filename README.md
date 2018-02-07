@@ -1,3 +1,16 @@
+# ATTENTION #
+
+This is a (probably very much so) stale branch intended to fix an issue I found
+in Puppet when using Augeas.
+
+The introduction of AIO packages changed some of the default paths in Puppet.
+When using Augeas and specifying which lens to use, Puppet would use the wrong
+path and instead just try all available lenses, making Augeas fairly slow.
+
+This branch tries to fix the issue by introducing a new variable, `sharedir`,
+that can be configured to point to the correct dir, so that Augeas can find the
+lenses it needs.
+
 Puppet
 ======
 
