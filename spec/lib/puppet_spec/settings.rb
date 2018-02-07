@@ -11,6 +11,7 @@ module PuppetSpec::Settings
     :confdir      => { :type => :directory, :default => "test", :desc => "confdir" },
     :codedir      => { :type => :directory, :default => "test", :desc => "codedir" },
     :vardir       => { :type => :directory, :default => "test", :desc => "vardir" },
+    :sharedir     => { :type => :directory, :default => "test", :desc => "sharedir" },
     :rundir       => { :type => :directory, :default => "test", :desc => "rundir" },
   }
 
